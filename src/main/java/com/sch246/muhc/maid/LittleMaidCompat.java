@@ -1,22 +1,22 @@
 package com.sch246.muhc.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.sch246.muhc.event.ClothConfigEvent;
 import com.sch246.muhc.maid.task.HandCrankTask;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.NeoForge;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 
-
-@LittleMaidExtension
+/**
+ * TLM 扩展入口。Fabric 侧靠 fabric.mod.json 的 {@code little_maid_extension} entrypoint 发现
+ * （NeoForge 的 @LittleMaidExtension 注解扫描在 Fabric 上是死代码）。
+ */
 public class LittleMaidCompat implements ILittleMaid {
     // 默认构造函数，女仆模组会在合适的时间调用这个构造函数。可以在这里注册女仆专属的事件
     public LittleMaidCompat() {
-        if (FMLEnvironment.dist == Dist.CLIENT && ModList.get().isLoaded("cloth_config")) {
-            NeoForge.EVENT_BUS.register(new ClothConfigEvent());
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT
+                && FabricLoader.getInstance().isModLoaded("cloth-config")) {
+            ClothConfigEvent.register();
         }
     }
 

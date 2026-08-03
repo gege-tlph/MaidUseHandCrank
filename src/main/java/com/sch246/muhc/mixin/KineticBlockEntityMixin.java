@@ -3,7 +3,7 @@ package com.sch246.muhc.mixin;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.sch246.muhc.util.IMaidHandCrank;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

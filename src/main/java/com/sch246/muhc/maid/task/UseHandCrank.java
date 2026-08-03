@@ -12,8 +12,8 @@ import com.sch246.muhc.create.InitPoi;
 import com.sch246.muhc.util.DynamicLangKeys;
 import com.sch246.muhc.util.IMaidHandCrank;
 import com.sch246.muhc.util.IUniPosOwner;
-import com.simibubi.create.content.kinetics.crank.HandCrankBlock;
-import com.simibubi.create.content.kinetics.crank.HandCrankBlockEntity;
+import com.zurrtum.create.content.kinetics.crank.HandCrankBlock;
+import com.zurrtum.create.content.kinetics.crank.HandCrankBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -52,7 +52,7 @@ public class UseHandCrank extends MaidCheckRateTask implements IUniPosOwner {
     public UseHandCrank(float speed) {
         super(ImmutableMap.of(
                 MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
-                InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT));
+                InitEntities.TARGET_POS, MemoryStatus.VALUE_ABSENT));
         this.speed = speed;
         this.setMaxCheckRate(MAX_DELAY_TIME);
         this.bubbleTimer = getRandomBubbleTimer();
@@ -311,7 +311,7 @@ public class UseHandCrank extends MaidCheckRateTask implements IUniPosOwner {
             unLock(level, crankPos);
             crankPos = null;
         }
-        maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
+        maid.getBrain().eraseMemory(InitEntities.TARGET_POS);
         maid.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
         maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
     }
@@ -322,12 +322,13 @@ public class UseHandCrank extends MaidCheckRateTask implements IUniPosOwner {
         int centerRadius = Config.CENTER_SEARCH_RADIUS.get();
         if (centerRadius == 0) {
             // 车万女仆的实际跟随距离就是比设置距离小，这可能是原 mod 的 bug
+            // 1.21.11：vanilla restrict 系 API 更名为 home 系（hasHome/getHomePosition/getHomeRadius）
             centerRadius = maid.isHomeModeEnable()
-                    ? (int) maid.getRestrictRadius() - 1
-                    : (int) maid.getRestrictRadius() - 2;
+                    ? maid.getHomeRadius() - 1
+                    : maid.getHomeRadius() - 2;
         }
-        Vec3 centerPos = maid.hasRestriction()
-                ? maid.getRestrictCenter().getCenter()
+        Vec3 centerPos = maid.hasHome()
+                ? maid.getHomePosition().getCenter()
                 : Optional.ofNullable(maid.getOwner())
                 .map(e -> new Vec3(e.getX(), e.getY(), e.getZ()))
                 .orElse(maid.position());
@@ -374,7 +375,7 @@ public class UseHandCrank extends MaidCheckRateTask implements IUniPosOwner {
 
         Stream<PoiRecord> stream = ChunkPos.rangeClosed(new ChunkPos(minChunkX, minChunkZ), new ChunkPos(maxChunkX, maxChunkZ))
                 .flatMap(chunkPos -> poiManager.getInChunk(
-                        type -> type.value().equals(InitPoi.HAND_CRANK.get()),
+                        type -> type.value().equals(InitPoi.HAND_CRANK),
                         chunkPos, PoiManager.Occupancy.ANY));
 
         stream = Stream.concat(stream, SableCompat.getSableCrank(level, BlockPos.containing(maidPos), Math.max(centerRadiusSqr, maidRadiusSqr)));
@@ -390,7 +391,7 @@ public class UseHandCrank extends MaidCheckRateTask implements IUniPosOwner {
     @javax.annotation.Nullable
     private BlockPos getNearestReachableCrankPosition(EntityMaid maid, ServerLevel level, Predicate<BlockPos> blockPredicate) {
         Stream<PoiRecord> stream = level.getPoiManager().getInRange(
-                type -> type.value().equals(InitPoi.HAND_CRANK.get()),
+                type -> type.value().equals(InitPoi.HAND_CRANK),
                 maid.blockPosition(),
                 Config.REACH_RADIUS.get(),
                 PoiManager.Occupancy.ANY
@@ -463,7 +464,7 @@ public class UseHandCrank extends MaidCheckRateTask implements IUniPosOwner {
 
         handCrank.inUse = tick;
         handCrank.backwards = back;
-        if (update && !level.isClientSide) {
+        if (update && !level.isClientSide()) {
             handCrank.updateGeneratedRotation();
         }
 

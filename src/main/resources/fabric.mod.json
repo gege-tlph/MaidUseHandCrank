@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "muhc",
+  "version": "${version}",
+  "name": "MaidUseHandCrank",
+  "description": "Enable the maid to use the hand crank.",
+  "authors": [
+    "sch246"
+  ],
+  "contact": {
+    "homepage": "https://github.com/sch246/MaidUseHandCrank",
+    "sources": "https://github.com/sch246/MaidUseHandCrank",
+    "issues": "https://github.com/sch246/MaidUseHandCrank/issues"
+  },
+  "license": "MIT / CC BY-NC-SA 4.0",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.sch246.muhc.MaidUseHandCrank"
+    ],
+    "client": [
+      "com.sch246.muhc.MaidUseHandCrankClient"
+    ],
+    "little_maid_extension": [
+      "com.sch246.muhc.maid.LittleMaidCompat"
+    ],
+    "modmenu": [
+      "com.sch246.muhc.compat.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    "muhc.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "fabric-api": "*",
+    "minecraft": "1.21.11",
+    "java": ">=21",
+    "touhou_little_maid": "*",
+    "create": ">=6.0.0",
+    "forgeconfigapiport": "*"
+  },
+  "suggests": {
+    "cloth-config": "*",
+    "modmenu": "*"
+  }
+}

@@ -4,6 +4,7 @@ package com.sch246.muhc.config;
 import com.sch246.muhc.Config;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -11,6 +12,17 @@ import java.util.List;
 
 public final class ClothConfigScreen {
     private ClothConfigScreen() {
+    }
+
+    /**
+     * ModMenu 通道：独立构建一个 Cloth Config 屏（NeoForge 版对应原生 ConfigurationScreen）。
+     */
+    public static Screen createScreen(Screen parent) {
+        ConfigBuilder root = ConfigBuilder.create()
+                .setParentScreen(parent)
+                .setTitle(Component.translatable("muhc.configuration.title"));
+        init(root, root.entryBuilder());
+        return root.build();
     }
 
     @SuppressWarnings("unchecked")

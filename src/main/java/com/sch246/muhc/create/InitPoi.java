@@ -1,26 +1,18 @@
 package com.sch246.muhc.create;
 
 import com.sch246.muhc.MaidUseHandCrank;
-import net.minecraft.core.registries.Registries;
+import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.bus.api.IEventBus;
-
 
 public class InitPoi {
-    public static final DeferredRegister<PoiType> POI_TYPES;
-    public static final DeferredHolder<PoiType, PoiType> HAND_CRANK;
+    /** 注册 id 与 NeoForge 版逐字一致：muhc:hand_crank */
+    public static PoiType HAND_CRANK;
 
-    public InitPoi() {
-    }
-
-    static {
-        POI_TYPES = DeferredRegister.create(Registries.POINT_OF_INTEREST_TYPE, MaidUseHandCrank.MODID);
-        HAND_CRANK = POI_TYPES.register("hand_crank", PoiManager::getCrankPoiType);
-    }
-
-    public static void register(IEventBus eventBus) {
-        POI_TYPES.register(eventBus);
+    public static void init() {
+        PoiType proto = PoiManager.getCrankPoiType();
+        HAND_CRANK = PointOfInterestHelper.register(
+                Identifier.fromNamespaceAndPath(MaidUseHandCrank.MODID, "hand_crank"),
+                proto.maxTickets(), proto.validRange(), proto.matchingStates());
     }
 }
