@@ -1,19 +1,38 @@
-# MaidUseHandCrank
+# MaidUseHandCrank — Minecraft 1.21.11 Fabric
 
-Allows Touhou Little Maid to use Create's Hand Crank.
+> [!IMPORTANT]
+> This repository is an unofficial **Fabric 1.21.11** port of
+> [sch246/MaidUseHandCrank](https://github.com/sch246/MaidUseHandCrank) (NeoForge 1.21.1),
+> independently maintained. The upstream NeoForge 1.21.1 version is the behavior baseline;
+> this project does not represent the original mod. For other Minecraft versions, use the
+> [upstream releases](https://github.com/sch246/MaidUseHandCrank/releases).
 
 <p align="center">
-    <a href="README.md">简体中文</a> | 
+    <a href="README.md">简体中文</a> |
     <a href="README.en_us.md">English</a>
 </p>
 
 ## Summary
 
-This mod is an addon for Touhou Little Maid and Create. It allows maids to use Create's hand cranks, and their working capacity increases with favorability.
+This mod is an addon for Touhou Little Maid and Create. It allows maids to use Create's hand
+cranks, and their working capacity increases with favorability.
 
-Train your maid from a rookie operating a single crank into an Ace Mechanist capable of simultaneously operating multiple cranks and outputting powerful rotational force!
+Train your maid from a rookie operating a single crank into an Ace Mechanist capable of
+simultaneously operating multiple cranks and outputting powerful rotational force!
 
 ![Ace Mechanist](https://s2.loli.net/2025/09/23/FjGfo6ESyCtLJlB.png)
+
+## About This Branch
+
+The upstream mod targets NeoForge 1.21.1. This branch is a loader + version double port,
+built against the Fabric ports of both dependencies (see [Installation](#installation)).
+
+- Gameplay matches the upstream NeoForge 1.21.1 version; mod id, task id and config file
+  names are kept identical, so worlds migrated from NeoForge 1.21.1 keep maid tasks and
+  crank states.
+- Differences from upstream (dependencies that do not exist on Fabric):
+  - **Create Connected crank wheels are not supported** (no Fabric version of that mod);
+  - **Cranks inside Sable sub-dimensions are not supported** (Sable is NeoForge-only).
 
 ## From Rookie to Ace: The Maid's Promotion Path
 
@@ -48,7 +67,8 @@ Employee capabilities will enhance synchronously with increased favorability!
 
 all configuration items are clearly divided into three categories in-game, allowing for precise management.
 
-> Now you can edit from Touhou Little Maid's configuration interface!
+> You can edit from Touhou Little Maid's configuration interface; with Mod Menu installed,
+> the config screen is also available from the mods list.
 
 ### General
 
@@ -83,20 +103,76 @@ all configuration items are clearly divided into three categories in-game, allow
 
 ---
 
-## Contributors
+## Compatibility
 
-<a href="https://github.com/sch246/MaidUseHandCrank/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=sch246/MaidUseHandCrank" />
-</a>  
+| Component | Requirement |
+|---|---|
+| Minecraft | 1.21.11 |
+| Java | 21 |
+| Fabric Loader | 0.16 or newer (0.19.3 is the currently verified version) |
+| Fabric API | any 1.21.11 build (0.141.4 is the currently verified version) |
+| Touhou Little Maid: Tsumugi | 0.8.4+ (**required**) |
+| Create Fly | 6.0.x (**required**, 6.0.9 is the currently verified version) |
+| Forge Config API Port | 21.11.x (**required**, 21.11.1 is the currently verified version) |
+| Installation side | client and server |
 
-## Thanks
+## Installation
 
-- Touhou Little Maid Mod: TartaricAcid and others
-- Create Mod: Simibuli and others
-- MaidAddition: Cirmuller
-  - Inspiration source (x)
-  - Referenced the message bubble content from this mod
+1. Install Fabric Loader for Minecraft 1.21.11.
+2. Download `MaidUseHandCrank_*-fabric-*.jar` from [Releases](../../releases).
+3. Put this mod together with all required dependencies into the `mods` folder on both
+   client and server.
 
-## License
-- Code: [MIT](https://mit-license.org/)
-- Assets: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+### Maintained by this organization
+
+**The Minecraft 1.21.11 Fabric build of Touhou Little Maid is ported and maintained by this
+organization** — there is no upstream release for it:
+
+| Mod | Purpose | Download |
+|---|---|---|
+| **Touhou Little Maid: Tsumugi** | the maid mod itself | [gege-tlph/TouhouLittleMaid-Tsumugi](https://github.com/gege-tlph/TouhouLittleMaid-Tsumugi/releases) |
+
+### Other dependencies
+
+| Mod | Purpose | Download |
+|---|---|---|
+| **Create Fly** | Fabric port of Create (by ZurrTum) | [Modrinth](https://modrinth.com/mod/create-fly) |
+| **Fabric API** | base API | [Modrinth](https://modrinth.com/mod/fabric-api) |
+| **Forge Config API Port** | config system | [Modrinth](https://modrinth.com/mod/forge-config-api-port) |
+
+Recommended but optional: [Mod Menu](https://modrinth.com/mod/modmenu) +
+[Cloth Config API](https://modrinth.com/mod/cloth-config) (in-game config screen).
+
+The versions in the table are the combination the current release was verified with. If you
+hit problems on other compatible versions, please reproduce with this combination first.
+
+## Issues
+
+Please open an [Issue](../../issues) with `logs/latest.log`, your mod list and reproduction
+steps. Problems that also occur on the upstream NeoForge version belong to the
+[upstream tracker](https://github.com/sch246/MaidUseHandCrank/issues).
+
+## Building from Source
+
+Requires JDK 21:
+
+```bash
+./gradlew build
+```
+
+On Windows PowerShell use `.\gradlew.bat build`. Artifacts are in `build/libs/`, built with
+official Mojang mappings.
+
+## Origin & License
+
+- Original mod: [sch246/MaidUseHandCrank](https://github.com/sch246/MaidUseHandCrank) (NeoForge 1.21.1)
+- This branch: [gege-tlph/MaidUseHandCrank](https://github.com/gege-tlph/MaidUseHandCrank)
+
+Thanks:
+
+- Touhou Little Maid: TartaricAcid and others
+- Create: Simibuli and others; Create Fly (Fabric port): ZurrTum
+- MaidAddition (Cirmuller): inspiration, and the source of the chat bubble quotes
+
+Code: [MIT](https://mit-license.org/) · Assets:
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)

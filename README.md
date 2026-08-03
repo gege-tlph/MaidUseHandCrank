@@ -1,19 +1,36 @@
-# 女仆摇手柄
+# 女仆摇手柄 (MaidUseHandCrank) — Minecraft 1.21.11 Fabric
 
-让车万女仆能使用机械动力的手摇曲柄。
+> [!IMPORTANT]
+> 本仓库是 [sch246/MaidUseHandCrank](https://github.com/sch246/MaidUseHandCrank)（NeoForge 1.21.1）
+> 的非官方 Fabric 移植，目标平台为 **Minecraft 1.21.11 + Fabric**，独立维护，
+> 行为基准为上游 NeoForge 1.21.1 版本，本项目不代表原模组官方版本。
+> 其他 Minecraft 版本请使用[上游发行版](https://github.com/sch246/MaidUseHandCrank/releases)。
 
 <p align="center">
-    <a href="README.md">简体中文</a> | 
+    <a href="README.md">简体中文</a> |
     <a href="README.en_us.md">English</a>
 </p>
 
-## 简介 (Summary)
-
-这是 车万女仆 和 机械动力 的附属模组。让女仆能使用机械动力的手摇曲柄，并随着好感度提升增加工作能力。
-
+这是车万女仆（[Touhou Little Maid](https://github.com/TartaricAcid/TouhouLittleMaid)）和机械动力
+（Create）的附属模组：让女仆能使用机械动力的手摇曲柄，并随着好感度提升增加工作能力。
 将你的女仆从一名摇动单个手柄的新人，培养成能够同时操作多个曲柄、输出强大动力的王牌机师！
 
+English: An unofficial Fabric 1.21.11 port of MaidUseHandCrank — let Touhou Little Maid operate
+Create's hand cranks, with stress output scaling with favorability. See
+[README.en_us.md](README.en_us.md).
+
 ![王牌机师](https://s2.loli.net/2025/09/23/uXP81c34Fn9VOQg.png)
+
+## 关于本分支
+
+上游本体是 NeoForge 1.21.1 模组。本分支做了「换加载器 + 跨版本」的双重移植，
+对接的是本组织维护的女仆与机械动力 Fabric 移植版（见下方[安装](#安装)）。
+
+- 玩法功能与上游 NeoForge 1.21.1 版一致；mod id、任务、配置文件名也保持一致，
+  从 NeoForge 1.21.1 存档迁移过来时女仆的任务与曲柄状态不丢。
+- 与上游的差异（依赖在 Fabric 侧不存在，非移植取舍）：
+  - **Create Connected 的曲柄轮/大曲柄轮不支持**（该模组无 Fabric 版）；
+  - **Sable 子维度内的曲柄不支持**（Sable 为 NeoForge 专属）。
 
 ## 从新人到大师：女仆的晋升之路
 
@@ -48,7 +65,7 @@
 
 所有配置项都在游戏中清晰地分为三类，方便你精细管理。
 
-> 现在可以从 Touhou Little Maid 的配置界面中进行编辑！
+> 可以从 Touhou Little Maid 的配置界面中编辑；装了 Mod Menu 时也可以从模组列表进入。
 
 ### 通用
 
@@ -83,20 +100,72 @@
 
 ---
 
-## 贡献者
+## 兼容性
 
-<a href="https://github.com/sch246/MaidUseHandCrank/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=sch246/MaidUseHandCrank" />
-</a>  
+| 组件 | 要求 |
+|---|---|
+| Minecraft | 1.21.11 |
+| Java | 21 |
+| Fabric Loader | 0.16 或更高版本（0.19.3 为当前验证版本） |
+| Fabric API | 任意 1.21.11 版本（0.141.4 为当前验证版本） |
+| Touhou Little Maid: Tsumugi | 0.8.4+（**必装**） |
+| Create Fly | 6.0.x（**必装**，6.0.9 为当前验证版本） |
+| Forge Config API Port | 21.11.x（**必装**，21.11.1 为当前验证版本） |
+| 安装位置 | 客户端与服务端 |
 
-## 致谢 (Thanks)
+## 安装
+
+1. 安装适用于 Minecraft 1.21.11 的 Fabric Loader。
+2. 从 [Releases](../../releases) 下载 `MaidUseHandCrank_*-fabric-*.jar`。
+3. 把本模组与全部必装依赖一起放入客户端和服务端的 `mods` 目录。
+
+### 需要从本组织获取
+
+**女仆本体的 Minecraft 1.21.11 Fabric 版本由本组织移植并维护**，上游没有对应版本，
+请从下面的仓库下载：
+
+| 模组 | 用途 | 下载 |
+|---|---|---|
+| **Touhou Little Maid: Tsumugi** | 女仆本体 | [gege-tlph/TouhouLittleMaid-Tsumugi](https://github.com/gege-tlph/TouhouLittleMaid-Tsumugi/releases) |
+
+### 其余依赖
+
+| 模组 | 用途 | 下载 |
+|---|---|---|
+| **Create Fly** | 机械动力的 Fabric 移植（ZurrTum 维护） | [Modrinth](https://modrinth.com/mod/create-fly) |
+| **Fabric API** | 基础 API | [Modrinth](https://modrinth.com/mod/fabric-api) |
+| **Forge Config API Port** | 配置系统 | [Modrinth](https://modrinth.com/mod/forge-config-api-port) |
+
+推荐但非必需：[Mod Menu](https://modrinth.com/mod/modmenu) +
+[Cloth Config API](https://modrinth.com/mod/cloth-config)（游戏内配置界面）。
+
+表中版本是当前发布所验证的组合。使用其他兼容版本时若遇到问题，请先用这组版本复现。
+
+## 已知问题
+
+遇到问题请提交 [Issue](../../issues)，并附上 `logs/latest.log`、模组列表和复现步骤。
+仅在上游 NeoForge 版出现的问题请报给[上游仓库](https://github.com/sch246/MaidUseHandCrank/issues)。
+
+## 从源码构建
+
+需要 JDK 21：
+
+```bash
+./gradlew build
+```
+
+Windows PowerShell 用 `.\gradlew.bat build`。产物在 `build/libs/`，使用 Mojang 官方映射。
+
+## 来源与许可证
+
+- 原模组：[sch246/MaidUseHandCrank](https://github.com/sch246/MaidUseHandCrank)（NeoForge 1.21.1）
+- 本分支：[gege-tlph/MaidUseHandCrank](https://github.com/gege-tlph/MaidUseHandCrank)
+
+致谢：
 
 - 车万女仆模组：酒石酸菌等
-- 机械动力模组：Simibuli等
-- MaidAddition: Cirmuller
-  - 灵感来源（x）
-  - 参考了这个 mod 内的消息气泡内容
+- 机械动力模组：Simibuli 等；Fabric 移植 Create Fly：ZurrTum
+- MaidAddition（Cirmuller）：灵感来源，参考了其消息气泡内容
 
-## License
-- Code: [MIT](https://mit-license.org/)
-- Assets: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)
+代码采用 [MIT License](https://mit-license.org/)，美术与资源采用
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)。
