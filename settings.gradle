@@ -1,5 +1,9 @@
 pluginManagement {
     repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
         gradlePluginPortal()
     }
 }
@@ -7,3 +11,6 @@ pluginManagement {
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
+
+// 钉死工程名，避免从目录名派生
+rootProject.name = 'MaidUseHandCrank'

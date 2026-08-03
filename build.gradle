@@ -1,12 +1,6 @@
 plugins {
-    id 'java-library'
-    id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.107'
+    id 'fabric-loom' version '1.17.14'
     id 'idea'
-}
-
-tasks.named('wrapper', Wrapper).configure {
-    distributionType = Wrapper.DistributionType.BIN
 }
 
 version = mod_version
@@ -16,85 +10,14 @@ base {
     archivesName = mod_id
 }
 
-jar {
-    archiveFileName = "${mod_name}_${mod_version}-neoforge_${neo_version}-${minecraft_version}.jar"
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-
-neoForge {
-    version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
-    runs {
-        client {
-            client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        server {
-            server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        data {
-            data()
-            programArguments.addAll '--mod', project.mod_id, '--all',
-                    '--output', file('src/generated/resources/').getAbsolutePath(),
-                    '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
-
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
-}
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-}
-
 
 repositories {
-    maven {
-        url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-    maven {
-        url = "https://maven.createmod.net"
-    }
-    maven {
-        url = "https://maven.ithundxr.dev/snapshots"
-    }
-    maven {
-        url = "https://jm.gserv.me/repository/maven-public"
-        content {
-            includeGroup "info.journeymap"
-            includeGroup "mysticdrew"
-        }
+    // TLM-Tsumugi 本地 jar
+    flatDir {
+        dir "libs"
     }
     maven {
         name = "Modrinth"
@@ -104,67 +27,68 @@ repositories {
         }
     }
     maven {
-        url = "https://maven.ryanhcode.dev/releases"
+        // Cloth Config
+        url "https://maven.shedaniel.me/"
+        content {
+            includeGroup "me.shedaniel"
+            includeGroup "me.shedaniel.cloth"
+            includeGroup "dev.architectury"
+        }
+    }
+    maven {
+        // Forge Config API Port
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }
 }
 
 dependencies {
-    // 添加 Create 依赖
-    implementation "curse.maven:create-328085:7963363"
-    implementation "curse.maven:create-connected-947914:8142873"
-    compileOnly "com.tterrag.registrate:Registrate:$registrate_version"
-    compileOnly "net.createmod.ponder:Ponder-NeoForge-$minecraft_version:$ponder_version"
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
-    // 添加 Touhou Little Maid 依赖
-    implementation "curse.maven:touhou-little-maid-355044:7510722"
+    // Create-Fly（必需）
+    modImplementation "maven.modrinth:create-fly:${create_fly_version}"
 
-    // Cloth Config
-    implementation "maven.modrinth:cloth-config:15.0.140+neoforge"
+    // Touhou Little Maid: Tsumugi（必需，libs/ flatDir）
+    modCompileOnly "libs:touhoulittlemaid-fabric:${tlm_version}"
+    modLocalRuntime "libs:touhoulittlemaid-fabric:${tlm_version}"
 
-    implementation("dev.ryanhcode.sable:sable-neoforge-1.21.1:1.2.1") { transitive = false }
-    implementation("dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:1.6.0") { transitive = false }
+    // Forge Config API Port：提供 ModConfigSpec / ModConfig（必需）
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forgeconfigapiport_version}"
 
-    compileOnly fileTree(dir: 'mods', include: ['*.jar'])
-}
-
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
-    ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
-
-sourceSets.main.resources.srcDir generateModMetadata
-neoForge.ideSyncTask generateModMetadata
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
-        }
+    // Cloth Config（软依赖：TLM 配置界面集成）
+    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+        exclude group: 'net.fabricmc.fabric-api'
     }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
-        }
+    modLocalRuntime("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+        exclude group: 'net.fabricmc.fabric-api'
+    }
+
+    // ModMenu（软依赖：mod 列表里的配置入口）
+    modCompileOnly "maven.modrinth:modmenu:${modmenu_version}@jar"
+    modLocalRuntime "maven.modrinth:modmenu:${modmenu_version}@jar"
+
+    // javax.annotation.Nonnull / Nullable
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+}
+
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+    options.release.set(21)
+}
+
+remapJar {
+    archiveFileName = "${mod_name}_${mod_version}-fabric-${minecraft_version}.jar"
 }
 
 idea {
