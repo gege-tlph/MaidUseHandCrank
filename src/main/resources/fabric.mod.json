@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "muhc",
   "version": "${version}",
-  "name": "MaidUseHandCrank",
+  "name": "MaidUseHandCrank: Tsumugi",
   "description": "MaidUseHandCrank 的非官方 Fabric 分支，由 gege-tlph 独立维护，移植至 Minecraft 1.21.11。原版模组由 sch246 制作。让女仆能使用机械动力的手摇曲柄。",
   "authors": [
     "gege-tlph"
