@@ -111,7 +111,7 @@ all configuration items are clearly divided into three categories in-game, allow
 | Java | 21 |
 | Fabric Loader | 0.16 or newer (0.19.3 is the currently verified version) |
 | Fabric API | any 1.21.11 build (0.141.4 is the currently verified version) |
-| Touhou Little Maid: Tsumugi | 0.8.4+ (**required**) |
+| Touhou Little Maid: Tsumugi | 0.8.4+ (**required**, 0.8.8 is the currently verified version) |
 | Create Fly | 6.0.x (**required**, 6.0.9 is the currently verified version) |
 | Forge Config API Port | 21.11.x (**required**, 21.11.1 is the currently verified version) |
 | Installation side | client and server |

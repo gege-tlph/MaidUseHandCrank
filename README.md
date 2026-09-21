@@ -108,7 +108,7 @@ Create's hand cranks, with stress output scaling with favorability. See
 | Java | 21 |
 | Fabric Loader | 0.16 或更高版本（0.19.3 为当前验证版本） |
 | Fabric API | 任意 1.21.11 版本（0.141.4 为当前验证版本） |
-| Touhou Little Maid: Tsumugi | 0.8.4+（**必装**） |
+| Touhou Little Maid: Tsumugi | 0.8.4+（**必装**，0.8.8 为当前验证版本） |
 | Create Fly | 6.0.x（**必装**，6.0.9 为当前验证版本） |
 | Forge Config API Port | 21.11.x（**必装**，21.11.1 为当前验证版本） |
 | 安装位置 | 客户端与服务端 |
