@@ -3,14 +3,17 @@
   "id": "muhc",
   "version": "${version}",
   "name": "MaidUseHandCrank",
-  "description": "Enable the maid to use the hand crank.",
+  "description": "MaidUseHandCrank 的非官方 Fabric 分支，由 gege-tlph 独立维护，移植至 Minecraft 1.21.11。原版模组由 sch246 制作。让女仆能使用机械动力的手摇曲柄。",
   "authors": [
+    "gege-tlph"
+  ],
+  "contributors": [
     "sch246"
   ],
   "contact": {
-    "homepage": "https://github.com/sch246/MaidUseHandCrank",
-    "sources": "https://github.com/sch246/MaidUseHandCrank",
-    "issues": "https://github.com/sch246/MaidUseHandCrank/issues"
+    "homepage": "https://github.com/gege-tlph/MaidUseHandCrank",
+    "sources": "https://github.com/gege-tlph/MaidUseHandCrank",
+    "issues": "https://github.com/gege-tlph/MaidUseHandCrank/issues"
   },
   "license": "MIT / CC BY-NC-SA 4.0",
   "icon": "icon.png",
