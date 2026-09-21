@@ -40,7 +40,7 @@
     "fabric-api": "*",
     "minecraft": "1.21.11",
     "java": ">=21",
-    "touhou_little_maid": "*",
+    "touhou_little_maid": ">=0.8.4-neo",
     "create": ">=6.0.0",
     "forgeconfigapiport": "*"
   },
