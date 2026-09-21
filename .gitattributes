@@ -1,5 +1,16 @@
-# Disable autocrlf on generated files, they always generate with LF
-# Add any extra files or paths here to make git stop saying they
-# are changed when only line endings change.
+# 统一行尾为 LF：Windows 本地构建与 Linux CI 的产物才能逐字节一致，
+# 发布页公布的 SHA-256 才对得上（2026-09-21 CI 首跑暴露过 CRLF/LF 导致的哈希分叉）。
+* text=auto eol=lf
+
+# Windows 批处理必须保留 CRLF
+*.bat text eol=crlf
+
+# 二进制：禁止任何行尾转换
+*.jar binary
+*.png binary
+*.ico binary
+*.zip binary
+
+# 生成物（保留原有规则）
 src/generated/**/.cache/cache text eol=lf
 src/generated/**/*.json text eol=lf
